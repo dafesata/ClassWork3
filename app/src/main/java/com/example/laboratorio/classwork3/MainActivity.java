@@ -6,10 +6,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText calcular;
-    private Button b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,sum,res,mul,div,equ;
+    private Button b1,b2,b3,b4,b5,b6,b7,b8,b9,b0,sum,res,mul,div,equ,del,back;
     private Double total,value;
 
     @Override
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mul=(Button) findViewById(R.id.buttonmul);
         div=(Button) findViewById(R.id.buttondiv);
         equ=(Button) findViewById(R.id.buttoneq);
+        del=(Button) findViewById(R.id.buttondel);
+        back=(Button) findViewById(R.id.buttonBack);
 
         b1.setOnClickListener(this);
         b2.setOnClickListener(this);
@@ -48,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mul.setOnClickListener(this);
         div.setOnClickListener(this);
         equ.setOnClickListener(this);
+        del.setOnClickListener(this);
+        back.setOnClickListener(this);
 
     }
 
@@ -98,9 +105,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 calcular.setText(calcular.getText().toString()+"/");
                 break;
             case R.id.buttoneq:
+                Expression exp = new ExpressionBuilder(calcular.getText().toString()).build();
+                calcular.setText(String.valueOf(exp.evaluate()));
+                break;
+            case R.id.buttondel:
+                calcular.setText(null);
+                break;
 
+            case R.id.buttonBack:
+                calcular.setText(calcular.getText().toString().substring(0,calcular.getText().length()-1));
                 break;
 
         }
     }
+
+
 }
